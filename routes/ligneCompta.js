@@ -20,4 +20,14 @@ router.post('/ligne',
     ligneComptaController.createLigneCompta);
 
 router.get('/ligne/:ligneId', ligneComptaController.getLigneCompta);
+
+router.put(
+    '/ligne/:ligneId',
+    [
+        body('date').trim().isISO8601().toDate(),
+        body('montant').trim().isNumeric(),
+        body('client').trim().isLength({ min: 5 })
+    ],
+    ligneComptaController.updateLigneCompta
+);
 module.exports = router;

@@ -5,16 +5,43 @@ const express = require('express')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+//Librairie pour l'upload de fichiers
+const multer = require('multer');
 
 const ligneComptaRoutes = require('./routes/ligneCompta');
 
-const app = express()
+const app = express();
+
+//Configuration multer
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'factures');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString() + '-' + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (
+        file.mimetype === 'text/plain' ||
+        file.mimetype === 'application/octet-stream' ||
+        file.mimetype === 'application/pdf'
+    ) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
 
 //On utilise le middleware pour parser le body de la requête et pouvoir y acceder via req.body
 app.use(bodyParser.json()); 
 
 //On rend les fichiers du dossier factures accessible
 app.use('/factures', express.static(path.join(__dirname, 'factures')));
+
+//On utilise le middleware multer pour parser les fichiers
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('facture'));
 //Port d'écoute
 const port = 3030
 

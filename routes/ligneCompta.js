@@ -30,4 +30,7 @@ router.put(
     ],
     ligneComptaController.updateLigneCompta
 );
+
+
+router.delete('/ligne/:ligneId', ligneComptaController.deleteLigneCompta);
 module.exports = router;

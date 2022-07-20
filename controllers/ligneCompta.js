@@ -6,11 +6,23 @@ const { validationResult } = require('express-validator');
 const LigneCompta = require('../models/ligneCompta');
 
 exports.getLignesCompta = (req, res, next) => {
-    LigneCompta.find()
-        .then(lignes => {
+    const currentPage = req.query.page || 1;
+    const perPage = 2;
+    let totalItems;
+    LigneCompta.find().countDocuments()
+        .then(count => {
+            totalItems = count;
+            return LigneCompta.find()
+            .skip((currentPage - 1) * perPage)
+            .limit(perPage);
+        }).then(lignes => {
             res
                 .status(200)
-                .json({ message: 'Fetched posts successfully.', lignes: lignes });
+                .json({ 
+                    message: 'Fetched posts successfully.', 
+                    lignes: lignes, 
+                    totalItems: totalItems 
+                });  
         })
         .catch(err => {
             if (!err.statusCode) {

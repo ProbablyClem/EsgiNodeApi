@@ -1,9 +1,9 @@
-const express = require('express');
-const { body } = require('express-validator');
+import express from 'express';
+import { body } from 'express-validator';
 
-const ligneComptaController = require('../controllers/ligneCompta');
-const isAuth = require('../middleware/is-auth');//Middleware d'authentification
-const router = express.Router();
+import ligneComptaController from '../controllers/ligneCompta.js';
+import { isAuth } from '../middleware/is-auth.js'; //Middleware d'authentification
+export const router = express.Router();
 
 // GET /compta/ligne
 //Récuperation de toutes les lignes
@@ -14,7 +14,7 @@ router.get('/lignes', isAuth, ligneComptaController.getLignesCompta);
 router.post('/ligne',
 [
         body('date').trim().isISO8601().toDate(),
-        body('montant').trim().isNumeric(),
+        body('montant').trim().isNumeric(), 
         body('client').trim().isLength({ min: 5 })
     ], isAuth,
     ligneComptaController.createLigneCompta);
@@ -33,4 +33,3 @@ router.put(
 
 
 router.delete('/ligne/:ligneId', isAuth, ligneComptaController.deleteLigneCompta);
-module.exports = router;

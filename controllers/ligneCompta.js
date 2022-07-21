@@ -1,11 +1,17 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+//avec les imports ecmascript, on est obligé de parse le dirname nous meme...
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const { validationResult } = require('express-validator');
+import { validationResult } from 'express-validator';
 
-const LigneCompta = require('../models/ligneCompta');
+import LigneCompta from '../models/ligneCompta.js';
 
-exports.getLignesCompta = (req, res, next) => {
+const ligneComptaController = {}
+
+ligneComptaController.getLignesCompta = (req, res, next) => {
     const currentPage = req.query.page || 1;
     const perPage = 2;
     let totalItems;
@@ -32,7 +38,7 @@ exports.getLignesCompta = (req, res, next) => {
         });
 };
 
-exports.createLigneCompta = (req, res, next) => {
+ligneComptaController.createLigneCompta = (req, res, next) => {
     console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -67,7 +73,7 @@ exports.createLigneCompta = (req, res, next) => {
         });
 };
 
-exports.getLigneCompta = (req, res, next) => {
+ligneComptaController.getLigneCompta = (req, res, next) => {
   const ligneId = req.params.ligneId;
     LigneCompta.findById(ligneId)
     .then(ligneCompta => {
@@ -86,7 +92,7 @@ exports.getLigneCompta = (req, res, next) => {
     });
 };
 
-exports.updateLigneCompta = (req, res, next) => {
+ligneComptaController.updateLigneCompta = (req, res, next) => {
     const ligneId = req.params.ligneId;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -126,7 +132,7 @@ exports.updateLigneCompta = (req, res, next) => {
         });
 };
 
-exports.deleteLigneCompta = (req, res, next) => {
+ligneComptaController.deleteLigneCompta = (req, res, next) => {
     const ligneId = req.params.ligneId;
     LigneCompta.findById(ligneId)
         .then(ligneCompta => {
@@ -157,3 +163,5 @@ const clearFacture = filePath => {
     filePath = path.join(__dirname, '..', filePath);
     fs.unlink(filePath, err => console.log(err));
 };
+
+export default ligneComptaController;

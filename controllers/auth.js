@@ -1,10 +1,11 @@
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-const User = require('../models/user');
+import User from '../models/user.js';
+const authController = {}
 
-exports.signup = (req, res, next) => {
+authController.signup = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         const error = new Error('Validation failed.');
@@ -36,7 +37,7 @@ exports.signup = (req, res, next) => {
         });
 };
 
-exports.login = (req, res, next) => {
+authController.login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     let loadedUser;
@@ -73,3 +74,5 @@ exports.login = (req, res, next) => {
             next(err);
         });
 };
+
+export default authController;

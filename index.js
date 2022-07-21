@@ -1,16 +1,21 @@
 //module nodes
-const path = require('path');
+import path from 'path';
 //Import des librairies
-const express = require('express')
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+import express from 'express'
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import { fileURLToPath } from 'url';
 
 //Librairie pour l'upload de fichiers
-const multer = require('multer');
+import multer from 'multer';
 
-const ligneComptaRoutes = require('./routes/ligneCompta');
-const authRoutes = require('./routes/auth');
+import {router as ligneComptaRoutes } from './routes/ligneCompta.js';
+import {router as authRoutes } from './routes/auth.js';
 
+
+//avec les imports ecmascript, on est obligé de parse le dirname nous meme...
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 

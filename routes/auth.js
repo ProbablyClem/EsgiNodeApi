@@ -1,11 +1,11 @@
 
-const express = require('express');
-const { body } = require('express-validator');
+import express from 'express';
+import { body } from 'express-validator';
 
-const User = require('../models/user');
-const authController = require('../controllers/auth');
+import User from '../models/user.js';
+import authController from '../controllers/auth.js';
 
-const router = express.Router();
+export const router = express.Router();
 
 router.put(
     '/signup',
@@ -41,5 +41,3 @@ router.post('/login',[
             .trim()
             .isLength({ min: 5 }),
     ], authController.login);
-
-module.exports = router;

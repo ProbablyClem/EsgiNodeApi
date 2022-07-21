@@ -107,7 +107,7 @@ exports.updateLigneCompta = (req, res, next) => {
                 throw error;
             }
             if (factureUrl !== ligneCompta.factureUrl) {
-                clearImage(ligneCompta.factureUrl);
+                clearFacture(ligneCompta.factureUrl);
             }
             ligneCompta.date = req.body.date;
             ligneCompta.factureUrl = factureUrl;
@@ -137,7 +137,7 @@ exports.deleteLigneCompta = (req, res, next) => {
             }
             
             if(ligneCompta.factureUrl){
-                clearImage(ligneCompta.factureUrl);
+                clearFacture(ligneCompta.factureUrl);
             }
             return LigneCompta.findByIdAndRemove(ligneId);
         })
@@ -153,7 +153,7 @@ exports.deleteLigneCompta = (req, res, next) => {
         });
 };
 
-const clearImage = filePath => {
+const clearFacture = filePath => {
     filePath = path.join(__dirname, '..', filePath);
     fs.unlink(filePath, err => console.log(err));
 };

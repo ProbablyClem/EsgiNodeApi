@@ -8,6 +8,8 @@ Clément Guiton B3 ESGI AL
     - Validation
     - Utilisation des modules ecmascript
 ## Setup
+ - Créer un fichier .env avec la variable DB_STRING qui contient l'url de la base de données
+ - 
 ```console
 $ npm install
 $ node index.js

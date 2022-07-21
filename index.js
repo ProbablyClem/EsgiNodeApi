@@ -5,6 +5,7 @@ import express from 'express'
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
+import 'dotenv/config'
 //avec les imports ecmascript, on est obligé de parse le dirname nous meme...
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -128,7 +129,7 @@ app.use((error, req, res, next) => {
 //Connection a la base de données
 mongoose
     .connect(
-        'mongodb://localhost:27017/test'
+        process.env.DB_STRING
     )
     .then(result => {  //On attend la connection a mongo avant de lancer notre serveur
         app.listen(port)     ;       

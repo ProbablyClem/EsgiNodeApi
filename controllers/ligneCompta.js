@@ -188,7 +188,15 @@ ligneComptaController.getTotal = (req, res, next) => {
             if (err) {
                 res.send(err);
             } else {
-                res.json(result[0].total); //ON recupere une avec liste avec agregate mais on aura forcément une seul valeur
+                if(result[total] == null){ //si pas de ligne on renvoie une erreur
+                    const error = new Error('Could not find ligne.');
+                    error.statusCode = 404;
+                    throw error;
+                }
+                else{
+                    res.json(result[0].total); //ON recupere une avec liste avec agregate mais on aura forcément une seul valeur
+                }
+                
             }
         }
     );

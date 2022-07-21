@@ -11,6 +11,13 @@ import LigneCompta from '../models/ligneCompta.js';
 
 const ligneComptaController = {}
 
+/**
+ * lineComptable type
+ * @typedef {object} ListeLigneCompta
+ * @property {string} message.required - Message de retour
+ * @property {array<LigneComptable>} lignes.required - Liste des lignes 
+ * @property {number} totalItems.required - Nombre total de lignes en base
+ */
 ligneComptaController.getLignesCompta = (req, res, next) => {
     const currentPage = req.query.page || 1;
     const perPage = 2;
@@ -38,6 +45,12 @@ ligneComptaController.getLignesCompta = (req, res, next) => {
         });
 };
 
+/**
+ * Retour ligne type
+ * @typedef {object} RetourLigneCompta
+ * @property {string} message.required - Message de retour
+ * @property {LigneComptable} lignes.required - Ligne concernée
+ */
 ligneComptaController.createLigneCompta = (req, res, next) => {
     console.log(req.body);
     const errors = validationResult(req);

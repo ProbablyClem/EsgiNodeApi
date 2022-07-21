@@ -7,6 +7,22 @@ import authController from '../controllers/auth.js';
 
 export const router = express.Router();
 
+/**
+ * Valeur de retour
+ * @typedef {object} RetourSignup
+ * @property {string} message.required - Message
+ * @property {string} userId.required - Identifiant de l'utilisateur
+ */
+
+/**
+ * PUT /auth/signup
+ * @summary Création d'un compte
+ * @tags Authentification
+ * @param {string}  name.form.required - Nom de l'utilisateur - multipart/form-data
+ * @param {string} email.form.required - Email (Doit etre unique) - multipart/form-data
+ * @param {string} password.form.required - Mot de passe - multipart/form-data
+ * @return {RetourSignup} 200 - Succes - application/json
+ */
 router.put(
     '/signup',
     [
@@ -32,6 +48,21 @@ router.put(
     authController.signup
 );
 
+/**
+ * Valeur de retour
+ * @typedef {object} RetourLogin
+ * @property {string} token.required - Jeton de connexion
+ * @property {string} userId.required - Identifiant de l'utilisateur
+ */
+
+/**
+ * POST /auth/login
+ * @summary Connexion
+ * @tags Authentification
+ * @param {string} email.form.required - Email de l'utilisateur - multipart/form-data
+ * @param {string} password.form.required - Mot de passe - multipart/form-data
+ * @return {RetourLogin} 200 - Succes - application/json
+ */
 router.post('/login',[
         body('email')
             .isEmail()

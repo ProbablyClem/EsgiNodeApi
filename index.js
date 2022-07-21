@@ -5,20 +5,70 @@ import express from 'express'
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { fileURLToPath } from 'url';
+//avec les imports ecmascript, on est obligé de parse le dirname nous meme...
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 //Librairie pour l'upload de fichiers
 import multer from 'multer';
+import expressJSDocSwagger from 'express-jsdoc-swagger';
+
+const options = {
+    info: {
+        version: '1.0.0',
+        title: 'Comptablite API',
+        license: {
+            name: 'MIT',
+        },
+    },
+    security: {
+        ApiKeyAuth: {
+            type: 'apiKey',
+            in: 'header',
+            name: 'Authorization',
+        },
+    },
+    baseDir: __dirname,
+    // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
+    filesPattern: './**/*.js',
+    // URL where SwaggerUI will be rendered
+    swaggerUIPath: '/api-docs',
+    // Expose OpenAPI UI
+    exposeSwaggerUI: true,
+    // Expose Open API JSON Docs documentation in `apiDocsPath` path.
+    exposeApiDocs: false,
+    // Open API JSON Docs endpoint.
+    apiDocsPath: '/v3/api-docs',
+    // Set non-required fields as nullable by default
+    notRequiredAsNullable: false,
+    // You can customize your UI options.
+    // you can extend swagger-ui-express config. You can checkout an example of this
+    // in the `example/configuration/swaggerOptions.js`
+    swaggerUiOptions: {},
+    // multiple option in case you want more that one instance
+    multiple: true,
+};
+
+
+
+
 
 import {router as ligneComptaRoutes } from './routes/ligneCompta.js';
 import {router as authRoutes } from './routes/auth.js';
 
 
-//avec les imports ecmascript, on est obligé de parse le dirname nous meme...
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
-
+expressJSDocSwagger(app)(options);
+/**
+ * GET /api/v1
+ * @summary This is the summary of the endpoint
+ * @return {object} 200 - success response
+ */
+app.get('/api/v1', (req, res) => res.json({
+    success: true,
+}));
 //Configuration multer
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {

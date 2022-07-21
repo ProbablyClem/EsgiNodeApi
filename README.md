@@ -41,3 +41,7 @@ project
       │   is-auth.js //permet de verifier que l'utilisateur est identifié
 ```
 
+## Documentation Swagger
+Pour acceder au swagger: 
+    - Lancer le server ($ node index.js)
+    - Acceder a l'url: http://localhost:3000/api-docs

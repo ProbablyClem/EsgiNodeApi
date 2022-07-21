@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 
 const ligneComptaRoutes = require('./routes/ligneCompta');
+const authRoutes = require('./routes/auth');
+
 
 const app = express();
 
@@ -58,6 +60,7 @@ app.use((req, res, next) => {
 
 //Pour les routes qui commencent par /compta on appelle le router de ligneCompta
 app.use('/compta', ligneComptaRoutes);
+app.use('/auth', authRoutes);
 
 //Gestion des erreurs
 app.use((error, req, res, next) => {

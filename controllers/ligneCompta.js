@@ -172,6 +172,29 @@ ligneComptaController.deleteLigneCompta = (req, res, next) => {
         });
 };
 
+ligneComptaController.getTotal = (req, res, next) => {
+    LigneCompta.aggregate(
+        [
+            {
+                $group: {
+                    _id: null,
+                    total: {
+                        $sum: "$montant"
+                    }
+                }
+            }
+        ],
+        function (err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(result[0].total); //ON recupere une avec liste avec agregate mais on aura forcément une seul valeur
+            }
+        }
+    );
+}
+
+
 const clearFacture = filePath => {
     filePath = path.join(__dirname, '..', filePath);
     fs.unlink(filePath, err => console.log(err));

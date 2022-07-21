@@ -77,3 +77,12 @@ router.put(
 * @return {Message} 200 - Succes - application/json
 */
 router.delete('/ligne/:ligneId', isAuth, ligneComptaController.deleteLigneCompta);
+
+/**
+ * GET /compta/total
+ * @summary total du montant des lignes comptable
+ * @security ApiKeyAuth
+ * @tags Compta
+ * @return {number} 200 - Succes - application/json
+ */
+router.get('/total', isAuth, ligneComptaController.getTotal);
